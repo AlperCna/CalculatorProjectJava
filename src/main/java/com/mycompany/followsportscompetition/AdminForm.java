@@ -713,11 +713,7 @@ public class AdminForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void fconfirm_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fconfirm_btnActionPerformed
-        /*int leagueId = Integer.parseInt(String.valueOf(cbLeague.getSelectedIndex()));
-        int team1Id = Integer.parseInt(String.valueOf(cbTeam1.getSelectedIndex()));
-        int team2Id = Integer.parseInt(String.valueOf(cbTeam2.getSelectedIndex()));
-        int matchTimeId = Integer.parseInt(String.valueOf(cbMatchTime.getSelectedIndex()));
-         */
+     
         int leagueId = cbLeague.getSelectedIndex();
         int team1Id = cbTeam1.getSelectedIndex();
         int team2Id = cbTeam2.getSelectedIndex();
