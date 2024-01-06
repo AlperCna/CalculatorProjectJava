@@ -184,7 +184,7 @@ public class UserPageForm extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Sport", "League", "Team 1", "Score 1", "Score 2", "Team 2", "IsActive", "MatchTime"
+                "ID", "Sport", "League", "Team 1", "Score 1", "Score 2", "Team 2", "MatchTime", "IsActive"
             }
         ) {
             boolean[] canEdit = new boolean [] {
