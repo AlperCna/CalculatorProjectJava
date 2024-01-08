@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class RegisterForm extends javax.swing.JFrame {
@@ -259,6 +261,14 @@ public class RegisterForm extends javax.swing.JFrame {
         txtUsername.setText("");
     }
 
+    public boolean isValidName(String username) throws Exception{
+        if(username.equals("")){
+            throw new BlankException();
+           
+        }else{
+            return true;
+        }
+    }
     private void reg_regbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reg_regbtnActionPerformed
         String username = txtUsername.getText();
         String password1 = txtPassword1.getText();
@@ -268,36 +278,40 @@ public class RegisterForm extends javax.swing.JFrame {
             if (txtPhoneNumber.getText().matches(PHONE_REGEX)) {
                 if (txtEmail.getText().matches(EMAIL_REGEX)) {
                     if (!txtAddress.getText().isEmpty()) {
-                        if (!username.isEmpty()) {
-                            if (!password1.isEmpty() || !password2.isEmpty()) {
-                                if (password1.equals(password2)) {
-                                    if (password1.matches(PASSWORD_REGEX)) {
-                                        try {
-                                            conn = Db.java_db();
-                                            String sql = "INSERT INTO `followsports`.`users` (`Name`, `Surname`, `Email`, `PhoneNumber`, `Address`, `username`, `password`, `role`) VALUES ('" + txtName.getText() + "','" + txtSurname.getText() + "','" + txtEmail.getText() + "','" + txtPhoneNumber.getText() + "','" + txtAddress.getText() + "','" + username + "', '" + password1 + "', 'user');";
-                                            statement = conn.createStatement();
-                                            statement.executeUpdate(sql);
-                                            JOptionPane.showMessageDialog(null, "Your account has been successfully registered...");
-                                            Clear();
-                                        } catch (Exception ex) {
-                                            JOptionPane.showMessageDialog(null, ex);
-                                        } finally {
+                        try {
+                            if (isValidName(txtUsername.getText())) {
+                                if (!password1.isEmpty() || !password2.isEmpty()) {
+                                    if (password1.equals(password2)) {
+                                        if (password1.matches(PASSWORD_REGEX)) {
                                             try {
-                                                conn.close();
-                                            } catch (Exception e) {
+                                                conn = Db.java_db();
+                                                String sql = "INSERT INTO `followsports`.`users` (`Name`, `Surname`, `Email`, `PhoneNumber`, `Address`, `username`, `password`, `role`) VALUES ('" + txtName.getText() + "','" + txtSurname.getText() + "','" + txtEmail.getText() + "','" + txtPhoneNumber.getText() + "','" + txtAddress.getText() + "','" + username + "', '" + password1 + "', 'user');";
+                                                statement = conn.createStatement();
+                                                statement.executeUpdate(sql);
+                                                JOptionPane.showMessageDialog(null, "Your account has been successfully registered...");
+                                                Clear();
+                                            } catch (Exception ex) {
+                                                JOptionPane.showMessageDialog(null, ex);
+                                            } finally {
+                                                try {
+                                                    conn.close();
+                                                } catch (Exception e) {
+                                                }
                                             }
+                                        } else {
+                                            JOptionPane.showMessageDialog(null, "Password must contain at least one digit, one lowercase letter, one uppercase letter, and be at least 8 characters long.");
                                         }
                                     } else {
-                                        JOptionPane.showMessageDialog(null, "Password must contain at least one digit, one lowercase letter, one uppercase letter, and be at least 8 characters long.");
+                                        JOptionPane.showMessageDialog(null, "Passwords do not match...");
                                     }
                                 } else {
-                                    JOptionPane.showMessageDialog(null, "Passwords do not match...");
+                                    JOptionPane.showMessageDialog(null, "Password cannot be left blank...");
                                 }
                             } else {
-                                JOptionPane.showMessageDialog(null, "Password cannot be left blank...");
+                                JOptionPane.showMessageDialog(null, "Username cannot be left blank...");
                             }
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Username cannot be left blank...");
+                        } catch (Exception ex) {
+                            ex.getMessage();
                         }
                     } else {
                         JOptionPane.showMessageDialog(null, "Address cannot be left blank...");
